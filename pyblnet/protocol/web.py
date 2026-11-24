@@ -17,11 +17,12 @@ from .flow import _FACTORY, Creatable
 DEFAULT_PASSWORD = "0128"
 
 # An input on the inputs page: a measured value with unit, or the state of a
-# digital input. The value of a digital input is "1" (on) or "0" (off), like
+# digital input. Negative values are right-aligned like "-&nbsp;2,5", or
+# "-11,5" when they take up the whole field. The value of a digital input is "1" (on) or "0" (off), like
 # the direct connection reports it.
 INPUT_PATTERN = re.compile(
     r"(?P<id>\d+):&nbsp;(?P<name>.+)\n(&nbsp;){3,6}"
-    r"(?:(?P<value>(-&nbsp;)?\d+,\d+) (?P<unit_of_measurement>.+?) &nbsp;&nbsp;"
+    r"(?:(?P<value>-?(&nbsp;)?\d+,\d+) (?P<unit_of_measurement>.+?) &nbsp;&nbsp;"
     r"|(?P<state>AUS|EIN|OFF|ON)(&nbsp;)+)PAR?"
 )
 DIGITAL_INPUT_STATES = {"AUS": "0", "OFF": "0", "EIN": "1", "ON": "1"}

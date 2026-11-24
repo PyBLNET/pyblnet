@@ -51,6 +51,17 @@ class WebPagesTest(unittest.TestCase):
         with serve("580500.htm"):
             self.assertFalse(web.Client.probe("blnet"))
 
+    def test_read_analog_values_below_minus_ten(self):
+        # -11,5 has no &nbsp; after the minus, -2,5 has one
+        with serve("580500.below_minus_10.htm"):
+            values = self.web.read_analog_values()
+        self.assertEqual([value["id"] for value in values], [str(i) for i in range(1, 17)])
+        self.assertEqual(
+            values[0],
+            {"id": "1", "name": "T.Kollektor", "value": "-11.5", "unit_of_measurement": "°C"},
+        )
+        self.assertEqual(values[11]["value"], "-2.5")
+
     def test_read_analog_values_with_negative_value(self):
         with serve("580500.alternative.htm"):
             values = self.web.read_analog_values()
